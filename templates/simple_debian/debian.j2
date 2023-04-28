@@ -1,5 +1,8 @@
 {% set cloud_config = cloud_localds.cloud_config %}
 #cloud-config
+hostname: {{ cloud_config.system_info.hostname }}
+fqdn: {{ cloud_config.system_info.hostname }}
+
 system_info:
   package_upgrade: true
   default_user:

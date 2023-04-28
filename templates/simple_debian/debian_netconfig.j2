@@ -1,3 +1,16 @@
+{% set cloud_config = cloud_localds.cloud_config %}
 network:
-  version: 1
-  config: disabled
+  version: 2
+  ethernets:
+    {{ cloud_config.network.interface.name }}:
+      dhcp4: false
+      dhcp6: false
+      addresses:  [{{ cloud_config.network.interface.address }}]
+      routes:
+      - to: default
+        via: {{ cloud_config.network.interface.gateway }}
+      nameservers:
+{% if cloud_config.network.dns_search is defined %}
+        search: [{{ cloud_config.network.dns_search }}]
+{% endif %}
+        addresses: [{{ cloud_config.network.dns_nameservers }}]
